@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 
-import avatar from "@/public/natalya.jpg"; // rasmni sen ulaysan
 
 export default function Psixolog() {
 	const [date, setDate] = useState(new Date());
@@ -47,7 +46,6 @@ export default function Psixolog() {
 				<div className="w-full p-4 bg-white shadow rounded-xl">
 					<h3 className="text-center font-semibold mb-2">МАРТ 2025</h3>
 					<Calendar
-						onChange={setDate}
 						value={date}
 						tileClassName={tileClassName}
 					/>
