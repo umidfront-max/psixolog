@@ -1,6 +1,10 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 function About() {
+	const router = useRouter();
+
 	return (
 		<div className="min-h-181 flex flex-col items-center justify-center bg-[url('/banner1.png')] bg-cover bg-center px-6">
 			<div className="w-full container text-black flex justify-between">
@@ -58,7 +62,10 @@ function About() {
 					ЕСЛИ НА ОДИН ИЛИ БОЛЕЕ ВОПРОСОВ ВЫ ОТВЕТИЛИ ДА, ТО НЕ ТЕРЯЙТЕ
 					ДРАГОЦЕННОЕ ВРЕМЯ.
 				</p>
-				<button className="bg-primary hover:bg-primary-dark hover:text-white transition px-6 py-3 rounded-full font-medium">
+				<button
+					onClick={() => router.push("/persons")}
+					className="bg-primary hover:bg-primary-dark hover:text-white transition px-6 py-3 rounded-full font-medium"
+				>
 					ЗАПИШИТЕСЬ ОНЛАЙН
 				</button>
 			</div>

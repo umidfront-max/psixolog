@@ -1,5 +1,7 @@
 // components/Psychologists.tsx
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const psychologists = [
 	{
@@ -23,12 +25,12 @@ const psychologists = [
 ];
 
 export default function Psychologists() {
+	const router = useRouter();
+
 	return (
 		<section className="py-12 bg-white">
 			<div className="container">
-				<h2 className="text-4xl font-medium  mb-6">
-					НАШИ ПСИХОЛОГИ
-				</h2>
+				<h2 className="text-4xl font-medium  mb-6">НАШИ ПСИХОЛОГИ</h2>
 
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 					{psychologists.map((p, i) => (
@@ -52,12 +54,12 @@ export default function Psychologists() {
 										{p.role}
 									</p>
 
-									<a
-										href="#"
-										className="text-primary-dark inline-block hover:no-underline my-6 mt-5"
+									<p
+										onClick={() => router.push("/psixolog")}
+										className="text-primary-dark cursor-pointer inline-block hover:no-underline my-6 mt-5"
 									>
 										ПОДРОБНЕЕ...
-									</a>
+									</p>
 									<div className="border-t border-gray-200 pt-4 px-6">
 										<div className="font-medium text-lg">
 											<span className="border-r inline-block pr-6 border-gray-200">
@@ -71,7 +73,10 @@ export default function Psychologists() {
 									</div>
 								</div>
 
-								<button className="w-full mt-3 bg-primary hover:bg-primary-dark hover:text-white font-medium py-2 px-6 rounded-full transition">
+								<button
+									onClick={() => router.push("/calendar")}
+									className="w-full mt-3 bg-primary hover:bg-primary-dark hover:text-white font-medium py-2 px-6 rounded-full transition"
+								>
 									ЗАПИСАТЬСЯ
 								</button>
 							</div>

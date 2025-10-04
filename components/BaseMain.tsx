@@ -1,11 +1,17 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 function BaseMain() {
+	const router = useRouter();
 	return (
 		<div className="h-100 flex items-center bg-[url('/bg.png')] bg-cover bg-center">
 			<div className="container flex justify-between ">
 				<div>
-					<button className="font-medium px-21 py-3 bg-primary hover:bg-primary-dark transition rounded-3xl">
+					<button
+						onClick={() => router.push("/persons")}
+						className="font-medium px-6 py-3 bg-primary hover:bg-primary-dark transition rounded-3xl"
+					>
 						ВЫБРАТЬ ПСИХОЛОГА
 					</button>
 					<p className="text-4xl font-medium !mt-8">КАБИНЕТ ПСИХОЛОГА</p>
@@ -30,7 +36,7 @@ function BaseMain() {
 							</p>
 						</div>
 					</div>
-					<button className="font-medium mt-8 px-21 py-3 bg-primary hover:bg-primary-dark transition rounded-3xl">
+					<button onClick={() => router.push("/persons")} className="font-medium mt-8 px-21 py-3 bg-primary hover:bg-primary-dark transition rounded-3xl">
 						ВЫБРАТЬ ПСИХОЛОГА
 					</button>
 				</div>

@@ -48,6 +48,33 @@
 	padding: 0px 20px;
 	margin: 0px auto;
 }
+/* Butun kalendarni borderini olib tashlash */
+.react-calendar {
+	border: none !important;
+}
+.react-calendar__tile {
+	border-radius: 10px !important;
+}
+.react-calendar__tile--active {
+	background: #1dcbee !important; /* Masalan, Tailwinddagi blue-600 */
+	color: #fff !important; /* Matn oq bo‘lib chiqadi */
+}
+/* Hujayralarning borderlarini olib tashlash */
+.react-calendar__tile {
+	border: none !important;
+}
+.calendar .react-calendar__tile {
+	height: 60px;
+}
+.calendar abbr {
+	font-size: 22px !important;
+	font-family: "Gilroy" !important;
+}
+.calendar .react-calendar{}
+.calendar .react-calendar__navigation__label__labelText {
+	font-size: 22px !important;
+	font-family: "Gilroy" !important;
+}
 body {
 	font-weight: 400;
 }
