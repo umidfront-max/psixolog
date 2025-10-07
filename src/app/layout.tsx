@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 	},
 	description:
 		"Профессиональная помощь психолога онлайн — консультации, поддержка, терапия.",
-	metadataBase: new URL("https://example.com"),
+	metadataBase: new URL("https://psixolog-blush.vercel.app"),
 };
 export default function RootLayout({
 	children,
