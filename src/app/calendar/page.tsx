@@ -42,7 +42,7 @@ function CalendarPage() {
 	return (
 		<div className="container calendar !my-10">
 			{/* Calendar */}
-			<div className="w-full rounded-3xl  px-50 py-10 bg-[#F4F4F440] border border-gray-300">
+			<div className="w-full rounded-3xl  px-50 py-10 bg-[#F4F4F440] max-lg:!px-10 max-sm:!px-1 max-sm:py-4 border border-gray-300">
 				<Calendar
 					className="!w-full h-100 !bg-transparent"
 					value={date}
@@ -50,7 +50,7 @@ function CalendarPage() {
 					locale="ru-RU"
 					tileContent={tileContent}
 				/>
-				<div className="flex justify-between border-t pt-4 border-gray-200 mt-4">
+				<div className="flex justify-between gap-4 border-t pt-4 border-gray-200 mt-4">
 					<button className="bg-primary w-75 text-center text-white px-4 py-2 rounded-3xl hover:bg-primary-dark text-sm font-medium">
 						В КАБИНЕТЕ
 					</button>
@@ -59,11 +59,11 @@ function CalendarPage() {
 					</button>
 				</div>
 			</div>
-			<div className="w-full rounded-3xl  px-50 py-10 bg-[#F4F4F440] border border-gray-300">
+			<div className="w-full rounded-3xl  px-50 py-10 bg-[#F4F4F440] max-lg:!px-10 max-sm:!px-4 max-sm:py-5 border border-gray-300">
 				<h2 className="font-medium text-gray-700 !mb-6">ВЫБЕРИТЕ ВРЕМЯ</h2>
 
 				{/* Time slots */}
-				<div className="grid grid-cols-4 gap-3">
+				<div className="grid grid-cols-4 max-sm:grid-cols-3 max-[490px]:!grid-cols-2 gap-3">
 					{times.map((t) => (
 						<button
 							key={t}
