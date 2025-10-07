@@ -40,14 +40,14 @@ export default function Blog() {
 	return (
 		<main className="container !py-10 !mt-10">
 			{/* Title */}
-			<h1 className="text-2xl md:text-4xl font-medium mb-8">
+			<h1 className="max-md:text-2xl max-sm:text-xl text-4xl font-medium mb-8 max-md:mb-5">
 				БЛОГ С НАТАЛЬЕЙ НАУМОВОЙ
 			</h1>
 
 			{/* Grid */}
 			<div className="grid md:grid-cols-11 gap-6">
 				{/* left column (2 + 2 small) */}
-				<div className="col-span-6 grid grid-cols-2 gap-6">
+				<div className="col-span-6 grid grid-cols-2 gap-6 max-sm:gap-4 max-[380px]:grid-cols-1">
 					{posts
 						.filter((p) => !p.large)
 						.map((post) => (
@@ -79,7 +79,7 @@ export default function Blog() {
 				</div>
 
 				{/* right column (large card) */}
-				<div className="col-span-5">
+				<div className="col-span-5 max-md:hidden">
 					{posts
 						.filter((p) => p.large)
 						.map((post) => (
@@ -113,7 +113,7 @@ export default function Blog() {
 
 			{/* All posts button */}
 			<div className=" mt-10">
-				<button className="px-36 py-3 font-medium  rounded-full hover:text-white transition  bg-primary hover:bg-primary-dark">
+				<button className="px-36 py-3 max-sm:w-full max-sm:px-3 font-medium  rounded-full hover:text-white transition  bg-primary hover:bg-primary-dark">
 					ВСЕ ЗАПИСИ
 				</button>
 			</div>

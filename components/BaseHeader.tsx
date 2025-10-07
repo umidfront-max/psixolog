@@ -4,12 +4,12 @@ function BaseHeader() {
    return (
       <>
 		<div className="bg-black-800 ">
-			<div className="container flex justify-between items-center !py-2.5">
-				<p className="text-white font-normal">
+			<div className="container flex justify-between max-md:flex-col max-md:items-start items-center !py-2.5">
+				<p className="text-white font-normal max-lg:text-sm max-md:!mb-2.5">
 					г. Москва, ул. Орджоникидзе, д.11, стр. 11, 1 этаж, офис 108
 				</p>
-				<div className="flex gap-6 items-center">
-					<p className="font-medium text-lg text-white">
+				<div className="flex gap-6 max-md:justify-between max-md:w-full items-center">
+					<p className="font-medium text-lg max-lg:text-base max-md:text-lg text-white">
 						+7-964-522-49-66
 					</p>
 					<div className="flex gap-4">
@@ -26,10 +26,10 @@ function BaseHeader() {
 				</div>
 			</div>
          </div>
-         <div className="flex gap-10 container justify-end !py-2">
-            <a className="text-xl " href="#!">Блог</a>
-            <a className="text-xl " href="#!">Контакты</a>
-            <a className="text-xl " href="#!">Выступления</a>
+         <div className="flex gap-10 max-md:gap-6 container justify-end !py-2">
+            <a className="text-xl max-md:text-base" href="#!">Блог</a>
+            <a className="text-xl max-md:text-base" href="#!">Контакты</a>
+            <a className="text-xl max-md:text-base" href="#!">Выступления</a>
          </div>
       </>
 	);

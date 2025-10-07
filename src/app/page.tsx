@@ -12,8 +12,7 @@ export default function Home() {
 			<Psychologists />
 			<About />
 			<Blog />
-			<WhyChooseUs />
-		
+			<WhyChooseUs /> 
 		</div>
 	);
 }

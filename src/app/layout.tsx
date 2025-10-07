@@ -31,7 +31,7 @@ export default function RootLayout({
         >
            <BaseHeader />
            {children}
-           <ContactMap />
+            <ContactMap /> 
            <Footer />
       </body>
     </html>

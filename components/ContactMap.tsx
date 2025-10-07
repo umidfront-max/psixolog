@@ -13,7 +13,7 @@ const ContactMap = () => {
 	const mapSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2246.5!2d${longitude}!3d${latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQyJzIyLjkiTiAzN8KwMzUnMzkuNCJF!5e0!3m2!1sru!2s!4v1234567890123!5m2!1sru!2s`;
 
 	return (
-		<div className="relative w-full h-[700px] bg-gray-100">
+		<div className="relative w-full h-[700px] max-md:h-[600px] max-sm:h-[500px] bg-gray-100 max-md:py-16">
 			{/* Google Map */}
 			<div className="absolute inset-0">
 				<iframe
@@ -30,8 +30,8 @@ const ContactMap = () => {
 
 			{/* Contact Information Overlay */}
 			{isOpen && (
-				<div className="absolute top-24 left-24 w-131 bg-white/95 backdrop-blur-sm p-8 overflow-y-auto">
-					<div className="space-y-6">
+				<div className="absolute top-24 left-24 w-131 max-md:w-4/5 max-sm:w-[90%] max-md:static max-md:mx-auto  bg-white/95 backdrop-blur-sm p-8 max-md:p-4 overflow-y-auto">
+					<div className="space-y-6 max-md:!space-y-3">
 						<div className="flex justify-between">
 							<p className="text-primary-dark">Подробнее как добраться....</p>
 							<button onClick={() => setIsOpen(false)}>
@@ -40,7 +40,7 @@ const ContactMap = () => {
 						</div>
 						
 						{/* Address */}
-						<div className="py-6 border-y space-y-3 border-gray-300">
+						<div className="py-6 border-y space-y-3 max-md:py-4 border-gray-300">
 							<div className="space-y-2">
 								<div className="flex gap-2 text-gray-700">
 									<MapPin className="w-6 h-6 font-bold text-primary" />
@@ -79,16 +79,16 @@ const ContactMap = () => {
 						</div>
 
 						<div>
-							<h1 className="text-2xl text-center font-medium">
+							<h1 className="text-2xl text-center font-medium max-md:text-base">
 								+7-964-522-49-66
 							</h1>
-							<p className="text-center text-sm text-[#747474]">
+							<p className="text-center text-sm text-[#747474] max-sm:text-xs">
 								Звоните или оставляйте заявку
 							</p>
 						</div>
 
 						<div className="flex justify-center items-center gap-4">
-							<p className="text-[#747474]">Мы в соц сетях:</p>
+							<p className="text-[#747474] max-sm:text-sm">Мы в соц сетях:</p>
 							<div className="flex gap-4">
 								<a className="w-6 h-6 rounded bg-white flex justify-center p-1" href="#!">
 									<img src={"/tg.svg"} alt="" />
