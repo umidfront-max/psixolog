@@ -4,6 +4,7 @@ import BaseHeader from "../../components/BaseHeader";
 import Footer from "../../components/Footer";
 import ContactMap from "../../components/ContactMap";
 import "./globals.css";
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -15,21 +16,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: {
-		default: "Психолог Онлайн",
-		template: "%s | Психолог Онлайн",
-	},
+	title: "Онлайн консультация с психологом | Психолог Онлайн",
 	description:
-		"Профессиональная помощь психолога онлайн — консультации, поддержка, терапия.",
-	metadataBase: new URL("https://psixolog-blush.vercel.app"),
+		"Запишитесь на онлайн-консультацию с профессиональным психологом. Поддержка, понимание и помощь в преодолении тревоги и стресса.",
+	openGraph: {
+		title: "Онлайн консультация с психологом",
+		description:
+			"Получите профессиональную психологическую помощь онлайн уже сегодня.",
+		url: "https://psixolog-blush.vercel.app",
+		siteName: "Психолог Онлайн",
+		images: [
+			{
+				url: "https://psixolog-blush.vercel.app/og-image.jpg",
+				width: 1200,
+				height: 630,
+				alt: "Психолог Онлайн консультация",
+			},
+		],
+		locale: "ru_RU",
+		type: "website",
+	},
 };
+
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="ru">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
