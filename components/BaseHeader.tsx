@@ -1,11 +1,15 @@
+"use client";
+import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 
 function BaseHeader() {
+	const router = useRouter();
+	const pathname = usePathname();
 	return (
 		<>
 			<div className="bg-black-800 ">
 				<div className="container flex justify-between max-md:flex-col max-md:items-start items-center !py-2.5">
-					<p className="text-white font-normal max-lg:text-sm max-md:!mb-2.5">
+					<p className="text-white font-normal max-lg:text-sm max-[420px]:!text-xs max-[360px]:!text-[10px] max-md:!mb-2.5">
 						г. Москва, ул. Орджоникидзе, д.11, стр. 11, 1 этаж, офис 108
 					</p>
 					<div className="flex gap-6 max-md:justify-between max-md:w-full items-center">
@@ -38,16 +42,40 @@ function BaseHeader() {
 					</div>
 				</div>
 			</div>
-			<div className="flex gap-10 max-md:gap-6 container justify-end !py-2">
-				<a className="text-xl max-md:text-base" href="#!">
-					Блог
-				</a>
-				<a className="text-xl max-md:text-base" href="#!">
-					Контакты
-				</a>
-				<a className="text-xl max-md:text-base" href="#!">
-					Выступления
-				</a>
+			<div className="flex container justify-between items-center">
+				{pathname !== "/" && (
+					<div
+						onClick={() => router.push("/")}
+						className="p-1 rounded cursor-pointer bg-primary/10 shadow"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							className="w-5"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+							/>
+						</svg>
+					</div>
+				)}
+
+				<div className="flex gap-10 max-md:gap-6  justify-end !py-2">
+					<a className="text-xl max-md:text-base" href="#!">
+						Блог
+					</a>
+					<a className="text-xl max-md:text-base" href="#!">
+						Контакты
+					</a>
+					<a className="text-xl max-md:text-base" href="#!">
+						Выступления
+					</a>
+				</div>
 			</div>
 		</>
 	);

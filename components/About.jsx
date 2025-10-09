@@ -10,7 +10,7 @@ function About() {
 			<div className="w-full container text-black flex justify-between max-md:flex-col max-md:gap-7">
 				{/* Chap taraf - yordam kattalar uchun */}
 				<div className="w-90 max-md:w-full">
-					<h2 className="text-3xl font-medium mb-4 max-lg:text-lg">ПОМОЩЬ ВЗРОСЛЫМ:</h2>
+					<h2 className="text-3xl font-medium mb-4 max-lg:text-lg max-md:text-center max-md:font-semibold">ПОМОЩЬ ВЗРОСЛЫМ:</h2>
 					<ul className="space-y-3 flex flex-col justify-start">
 						<li className="bg-white py-2 w- px-6 rounded-4xl leading-5 rounded-tl-lg rounded-bl-[50px] max-md:w-full max-md:text-center max-md:py-3">
 							У Вас кризис в отношениях? Развод? Нет взаимопонимания с
@@ -34,7 +34,7 @@ function About() {
 
 				{/* O‘ng taraf - yordam bolalar uchun */}
 				<div className="w-91.5 max-md:w-full flex flex-col justify-end max-lg:justify-start">
-					<h2 className="text-3xl font-medium mb-4 max-lg:text-lg max-md:text-end">ПОМОЩЬ ДЕТЯМ:</h2>
+					<h2 className="text-3xl font-medium mb-4 max-lg:text-lg max-md:text-center max-md:font-semibold">ПОМОЩЬ ДЕТЯМ:</h2>
 					<ul className="space-y-3 flex flex-col justify-end items-end">
 						<li className="bg-white py-2 w- px-6 rounded-4xl leading-5 rounded-tr-lg rounded-br-[50px] max-lg:text-sm max-md:w-full max-md:text-center max-md:py-3">
 							У Вашего ребенка трудности в обучении?

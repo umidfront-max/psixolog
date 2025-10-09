@@ -94,8 +94,8 @@ function CalendarPage() {
 						className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 					/>
 					<input
-						type="password"
-						placeholder="Код из CVC*"
+						type="text"
+						placeholder="Код из SMS*"
 						className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 					/>
 				</div>

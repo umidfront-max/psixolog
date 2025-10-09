@@ -113,8 +113,8 @@ export default function Psixolog() {
 							className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 						/>
 						<input
-							type="password"
-							placeholder="Код из CVC*"
+							type="text"
+							placeholder="Код из SMS*"
 							className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 						/>
 					</div>
@@ -173,7 +173,7 @@ export default function Psixolog() {
 						<ul className="space-y-3">
 							<li className="flex p-6 rounded-3xl bg-[#F7F9FC] items-center gap-5 max-md:p-2">
 								<div className="p-3 bg-[#001E24] rounded-xl">
-									<img className="w-6 h-6" src="/icon.svg" alt="" />
+									<img className="w-6 h-6" src="/icon1.svg" alt="" />
 								</div>
 								<div className="flex-1">
 									<p className="text-primary">Институт психоанализа</p>
@@ -185,7 +185,7 @@ export default function Psixolog() {
 							</li>
 							<li className="flex p-6 rounded-3xl bg-[#F7F9FC] items-center gap-5 max-md:p-2">
 								<div className="p-3 bg-[#001E24] rounded-xl">
-									<img className="w-6 h-6" src="/icon.svg" alt="" />
+									<img className="w-6 h-6" src="/icon1.svg" alt="" />
 								</div>
 								<div className="flex-1">
 									<p className=" text-primary">МГУ им Ломоносова</p>

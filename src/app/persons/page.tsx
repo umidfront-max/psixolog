@@ -54,11 +54,11 @@ const psychologists = [
 
 export default function PsychologistCard() {
 	return (
-		<div className="!space-y-10">
+		<div className="!space-y-4 container !my-6">
 			{psychologists.map((p) => (
 				<div
 					key={p.id}
-					className="container bg-[#F4F4F440] rounded-2xl !p-16 max-xl:!px-5 grid max-md:grid-cols-1 max-xl:grid-cols-3 grid-cols-4 gap-20 max-lg:gap-10 max-md:gap-x-0 max-md:!py-6"
+					className=" bg-[#F4F4F440] rounded-3xl p-10 max-xl:!px-5 grid max-md:grid-cols-1 max-xl:grid-cols-3 grid-cols-4 gap-20 max-lg:gap-10 max-sm:gap-4 max-md:gap-x-0 max-md:!py-6"
 				>
 					{/* Chap qism */}
 					<div className="flex flex-col items-start">
@@ -75,7 +75,7 @@ export default function PsychologistCard() {
 							ЗАПИСАТЬСЯ НА ПРИЕМ
 						</button>
 						<p className="text-gray-700 text-xl max-sm:text-base !mb-4">{p.role}</p>
-						<p className="text-gray-500 border-t border-gray-300 !pt-4">
+						<p className="text-gray-500 border-t border-gray-300 !pt-4 max-md:w-full">
 							Ближайшее время:{" "}
 							<span className="text-primary-dark">{p.nextTime}</span>
 						</p>
@@ -84,12 +84,12 @@ export default function PsychologistCard() {
 					{/* O‘ng qism */}
 					<div className="col-span-3 max-xl:col-span-2 flex flex-col justify-between">
 						<div>
-							<h2 className="text-2xl font-medium text-gray-800 mb-2">
+							<h2 className="text-2xl max-sm:hidden  font-medium text-gray-800 mb-2">
 								{p.name}
 							</h2>
 
 							{/* Teglar */}
-							<div className="flex flex-wrap gap-2 mb-3">
+							<div className="flex max-sm:hidden flex-wrap gap-2 mb-3">
 								{p.tags.map((tag, i) => (
 									<span
 										key={i}
@@ -101,7 +101,7 @@ export default function PsychologistCard() {
 							</div>
 
 							{/* Tajriba */}
-							<div className="flex items-center gap-2 text-sm mb-3">
+							<div className="flex  items-center gap-2 text-sm mb-3">
 								<img src="/portfel.svg" alt="" />
 								<span className="font-medium text-sm">
 									{p.experience}
