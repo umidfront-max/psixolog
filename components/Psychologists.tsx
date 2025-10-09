@@ -56,7 +56,7 @@ export default function Psychologists() {
 
 									<p
 										onClick={() => router.push("/psixolog")}
-										className="text-primary-dark cursor-pointer inline-block hover:no-underline my-6 mt-5 max-lg:text-sm max-sm:my-2 max-sm:mb-5"
+										className="text-primary-dark cursor-pointer inline-block hover:no-underline !my-5 !mt-4 max-lg:text-sm max-sm:!my-2 max-sm:!mb-3"
 									>
 										ПОДРОБНЕЕ...
 									</p>

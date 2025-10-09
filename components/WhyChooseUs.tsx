@@ -38,7 +38,7 @@ export default function WhyChooseUs() {
 				{/* O‘ng tomondagi 2 ta card (ustma-ust) */}
 				<div className="grid grid-rows-2 gap-6">
 					<div className="bg-[#1DCBEE] rounded-lg shadow-md p-6 transition hover:shadow-lg">
-						<h3 className="text-2xl font-medium my-4 max-lg:mt-0 max-xl:text-xl max-md:text-sm">
+						<h3 className="text-2xl font-medium !my-4 max-lg:!mt-0 max-xl:text-xl max-md:text-sm">
 							НАДЕЖНЫЙ РЕЗУЛЬТАТ
 						</h3>
 						<p className="text-gray-700 leading-relaxed max-md:text-[13px]">
@@ -51,7 +51,7 @@ export default function WhyChooseUs() {
 					</div>
 
 					<div className="bg-[#31C4CE] rounded-lg shadow-md p-6 transition hover:shadow-lg">
-						<h3 className="text-2xl font-medium my-4 max-xl:text-xl max-lg:mt-0 max-md:text-sm">
+						<h3 className="text-2xl font-medium !my-4 max-xl:text-xl max-lg:!mt-0 max-md:text-sm">
 							АНОНИМНОСТЬ И КОНФИДЕНЦИАЛЬНОСТЬ
 						</h3>
 						<p className="text-gray-700 leading-relaxed max-md:text-[13px]">
