@@ -48,7 +48,7 @@ function BaseHeader() {
 						onClick={() => router.push("/")}
 						className="p-1 rounded cursor-pointer bg-primary/10 shadow"
 					>
-						<svg
+						{/* <svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ function BaseHeader() {
 								stroke-linejoin="round"
 								d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
 							/>
-						</svg>
+						</svg> */}
 					</div>
 				)}
 

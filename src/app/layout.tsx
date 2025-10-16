@@ -1,10 +1,11 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import BaseHeader from "../../components/BaseHeader";
 import Footer from "../../components/Footer";
 import ContactMap from "../../components/ContactMap";
 import "./globals.css";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
 			>
 				<BaseHeader />
 				{children}
+				<Toaster position="top-center" reverseOrder={false} />
 				<ContactMap />
 				<Footer />
 			</body>

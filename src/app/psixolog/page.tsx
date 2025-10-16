@@ -1,36 +1,208 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Clock } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 import { IMaskInput } from "react-imask";
 import ButtonModal from "../../../components/ButtonModal";
+import { useRouter, useSearchParams } from "next/navigation";
+interface Specialist {
+	specialist_id: number;
+	name: string;
+	photo: string;
+	order: number;
+	time_slot_duration: number;
+	video: null | string;
+	base_price: number;
+	short_description: string;
+	long_description: string;
+}
+
 export default function Psixolog() {
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const id = searchParams.get("id");
+
+	const [specialist, setSpecialist] = useState<Specialist | null>(null);
+	const [calendar, setCalendar] = useState<string[]>([]);
+	const [date, setDate] = useState<Date>(new Date());
+	const [time, setTime] = useState<any>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	const [time, setTime] = useState<string | null>(null);
-	const times = [
-		"09:00–10:00",
-		"10:00–11:00",
-		"11:00–12:00",
-		"12:00–13:00",
-		"14:00–15:00",
-		"15:00–16:00",
-		"16:00–17:00",
-		"17:00–18:00",
-	];
-	// Doimiy ko‘rinadigan nuqtalar (2 va 3 oktabr)
-	const defaultDates = [new Date(2025, 9, 2), new Date(2025, 9, 3)];
+	const [loading, setLoading] = useState(true);
+	const [timeSlots, setTimeSlots] = useState<any[]>([]);
 
-	// Endi faqat bitta sanani tanlash mumkin
-	const [date, setDate] = useState<Date | null>(null);
+	const [name, setName] = useState("");
+	const [phone, setPhone] = useState("");
+	const [smsCode, setSmsCode] = useState("");
+	const [isCodeSent, setIsCodeSent] = useState(false);
+	const [timer, setTimer] = useState(0);
 
-	// Har doim default sanalarda 🔵 nuqta ko‘rsatish
+	const today = new Date();
+	const threeMonthsLater = new Date();
+	threeMonthsLater.setMonth(today.getMonth() + 3);
+
+	function formatDate1(date: Date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, "0");
+		const day = String(date.getDate()).padStart(2, "0");
+		return `${year}-${month}-${day}`;
+	}
+
+	const [formData, setFormData] = useState<any>({
+		begin: formatDate1(today),
+		end: formatDate1(threeMonthsLater),
+		specialist_id: id,
+		online: false,
+	});
+	useEffect(() => {
+		if (timer > 0) {
+			const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+			return () => clearInterval(interval);
+		}
+	}, [timer]);
+
+	const handleSendSMS = async () => {
+		console.log(phone);
+		if (!name.trim()) {
+			toast.error("Введите имя");
+			return;
+		}
+		if (!phone) {
+			toast.error("Введите имя и номер телефона!");
+			return;
+		}
+		const cleanPhone = phone.replace(/[^\d+]/g, "");
+		try {
+			// SMS yuborish API (misol uchun)
+			const res = await fetch(
+				"https://xn--80agomhibes5b3a.xn--p1ai/validation_phone_number/",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ phone: cleanPhone }),
+				}
+			);
+
+			if (!res.ok) throw new Error("Ошибка отправки СМС");
+			setIsCodeSent(true);
+			setTimer(60); // 1 daqiqa
+			toast.success("Код отправлен на ваш номер!");
+		} catch (err) {
+			console.error(err);
+			toast.error("Ошибка при отправке SMS");
+		}
+	};
+	// 🔹 API dan sanalarni olish
+	const fetchCalendar = useCallback(async () => {
+		try {
+			setLoading(true);
+			const res = await fetch(
+				"https://xn--80agomhibes5b3a.xn--p1ai/get_freedate_list/",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(formData),
+				}
+			);
+
+			if (!res.ok) throw new Error("API xatosi");
+			const data = await res.json();
+			setCalendar(data);
+		} catch (err) {
+			console.error("Xato:", err);
+		} finally {
+			setLoading(false);
+		}
+	}, [formData]);
+
+	// 🔹 Mutaxassisni olish
+	const fetchSpecialists = useCallback(async () => {
+		try {
+			const res = await fetch(
+				"https://xn--80agomhibes5b3a.xn--p1ai/specialist/" + id
+			);
+			if (!res.ok) throw new Error("API xatosi");
+			const data = await res.json();
+			setSpecialist(data);
+		} catch (err) {
+			console.error("Xato:", err);
+		}
+	}, [id]);
+
+	const fetchTimeSlots = useCallback(
+		async (selectedDate: Date) => {
+			try {
+				const res = await fetch(
+					"https://xn--80agomhibes5b3a.xn--p1ai/get_time_slot/",
+					{
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							date: formatDate1(selectedDate),
+							online: formData.online,
+							specialist_id: id,
+						}),
+					}
+				);
+
+				if (!res.ok) throw new Error("API xatosi");
+				const data = await res.json();
+				setTimeSlots(data); // bu massiv bo‘lishi kerak (masalan ["09:00","10:00",...])
+			} catch (err) {
+				console.error("Vaqtni olishda xato:", err);
+			}
+		},
+		[formData.online, id]
+	);
+	// 🔹 Dastlabki yuklanish
+	useEffect(() => {
+		fetchCalendar();
+		fetchSpecialists();
+	}, [fetchCalendar, fetchSpecialists]);
+
+	// 🔹 Online yoki kabinet o‘zgarsa — qayta so‘rov
+	useEffect(() => {
+		fetchCalendar();
+	}, [formData.online, fetchCalendar]);
+
+	const sendAppointment = async () => {
+		if (!smsCode) {
+			toast.error("Введите код из SMS!");
+			return;
+		}
+
+		const cleanPhone = phone.replace(/[^\d+]/g, "");
+		const payload = {
+			phone: cleanPhone,
+			timeslot_id: time?.id,
+			code_validation: smsCode,
+			name,
+		};
+
+		try {
+			const res = await fetch(
+				"https://xn--80agomhibes5b3a.xn--p1ai/appointment/",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload),
+				}
+			);
+			if (!res.ok) throw new Error("Ошибка при записи!");
+			toast.success("Вы успешно записались!");
+		} catch (err) {
+			console.error(err);
+			toast.error("Ошибка при создании записи!");
+		}
+	};
+
+	// 🔹 Sana belgisi (API dan kelgan sanalarda nuqta)
 	const tileContent = ({ date, view }: { date: Date; view: string }) => {
 		if (view === "month") {
-			if (
-				defaultDates.find((d) => d.toDateString() === date.toDateString())
-			) {
+			const formatted = formatDate1(date);
+			if (calendar.includes(formatted)) {
 				return (
 					<div className="flex relative justify-center">
 						<span className="w-2 h-2 absolute rounded-full bg-primary"></span>
@@ -40,6 +212,13 @@ export default function Psixolog() {
 		}
 		return null;
 	};
+
+	const imgUrl = specialist?.photo?.startsWith("http")
+		? specialist.photo
+		: `https://xn--80agomhibes5b3a.xn--p1ai/${specialist?.photo?.replace(
+				/\\/g,
+				"/"
+		  )}`;
 	return (
 		<div className="container !py-10 max-md:!py-6 grid md:grid-cols-3 max-xl:gap-10 gap-20">
 			<ButtonModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
@@ -47,16 +226,16 @@ export default function Psixolog() {
 			<div className="flex flex-col items-center space-y-6 max-lg:hidden">
 				<div className="w-full border rounded-4xl border-gray-300">
 					<img
-						src={"/bn.png"}
+						src={imgUrl}
 						alt="Наталья Наумова"
 						className="h-124 object-cover rounded-4xl w-full"
 					/>
 					<div className="mt-6 mb-14 px-6">
 						<h2 className="text-2xl font-medium text-primary-dark">
-							НАТАЛЬЯ НАУМОВА
+							{specialist?.name}
 						</h2>
 						<p className="text-gray-600">
-							Психолог, детский нейропсихолог
+							{specialist?.short_description}
 						</p>
 					</div>
 				</div>
@@ -65,64 +244,130 @@ export default function Psixolog() {
 				<div className="w-full p-4 bg-white shadow rounded-xl">
 					<Calendar
 						value={date}
-						onChange={(val) => setDate(val as Date)}
+						onChange={(val) => {
+							const newDate = val as Date;
+							setDate(newDate);
+							fetchTimeSlots(newDate); // 🔹 sana tanlanganda vaqt slotlarini olish
+						}}
 						locale="ru-RU"
 						tileContent={tileContent}
 					/>
 					<div className="flex justify-between border-t pt-4 border-gray-200 mt-4">
-						<button className="bg-primary text-white px-4 py-2 rounded-3xl hover:bg-primary-dark text-sm font-medium">
+						<button
+							onClick={() => setFormData({ ...formData, online: false })}
+							className={`px-4 py-2 rounded-3xl text-sm font-medium ${
+								!formData.online
+									? "bg-primary text-white hover:bg-primary-dark"
+									: "bg-gray-100 hover:bg-gray-200"
+							}`}
+						>
 							В КАБИНЕТЕ
 						</button>
-						<button className="bg-gray-100 px-4 py-2 rounded-3xl hover:bg-gray-200  text-sm font-medium">
+
+						<button
+							onClick={() => setFormData({ ...formData, online: true })}
+							className={`px-4 py-2 rounded-3xl text-sm font-medium ${
+								formData.online
+									? "bg-primary text-white hover:bg-primary-dark"
+									: "bg-gray-100 hover:bg-gray-200"
+							}`}
+						>
 							ОНЛАЙН
 						</button>
 					</div>
 				</div>
-				<div className="max-w-sm mx-auto bg-white rounded-3xl border border-gray-200  p-6 space-y-6">
+				<div className="max-w-sm mx-auto w-full bg-white rounded-3xl border border-gray-200  p-6 space-y-6">
 					<h2 className="font-medium text-gray-700">ВЫБЕРИТЕ ВРЕМЯ</h2>
 
 					{/* Time slots */}
 					<div className="grid grid-cols-2 gap-3">
-						{times.map((t) => (
-							<button
-								key={t}
-								onClick={() => setTime(t)}
-								className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition ${
-									time === t
-										? "bg-sky-400 text-white border-sky-400"
-										: "bg-white text-gray-600 border-gray-300 hover:border-sky-300"
-								}`}
-							>
-								<Clock size={16} />
-								<span className="text-sm">{t}</span>
-							</button>
-						))}
+						{timeSlots && timeSlots.length > 0 ? (
+							timeSlots
+								?.filter((el) => el.free_time)
+								?.map((t) => (
+									<button
+										key={t?.id}
+										onClick={() => setTime(t)}
+										className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition ${
+											time === t
+												? "bg-sky-400 text-white border-sky-400"
+												: "bg-white text-gray-600 border-gray-300 hover:border-sky-300"
+										}`}
+									>
+										<Clock size={16} />
+										<span className="text-sm">{t?.time}</span>
+									</button>
+								))
+						) : (
+							<p className="text-gray-500 col-span-2 text-center">
+								Свободного времени нет
+							</p>
+						)}
 					</div>
-
 					{/* Form inputs */}
-					<div className="space-y-4">
-						<input
-							type="text"
-							placeholder="Имя*"
-							className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
-						/>
-						<IMaskInput
-							mask="+7 (000) 000-00-00"
-							placeholder="+7 (___) ___-__-__"
-							lazy={false} // placeholderdagi bo‘sh joylar ko‘rinib turadi
-							className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
-						/>
-						<input
-							type="text"
-							placeholder="Код из SMS*"
-							className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
-						/>
-					</div>
+					{time && (
+						<div className="space-y-4">
+							<input
+								type="text"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+								placeholder="Имя*"
+								className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+							/>
+							<IMaskInput
+								mask="+7 (000) 000-00-00"
+								value={phone}
+								onAccept={(val: string) => setPhone(val)}
+								placeholder="+7 (___) ___-__-__"
+								lazy={false}
+								className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+							/>
 
-					{/* Submit button */}
-					<button className="w-full bg-sky-400 hover:bg-sky-500 text-white py-3 rounded-xl font-semibold transition">
-						ПОЛУЧИТЬ КОД
-					</button>
+							{isCodeSent && (
+								<input
+									type="text"
+									value={smsCode}
+									onChange={(e) => setSmsCode(e.target.value)}
+									placeholder="Код из SMS*"
+									className="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
+								/>
+							)}
+
+							{/* Buttons */}
+							{!isCodeSent ? (
+								<button
+									onClick={handleSendSMS}
+									className="w-full bg-sky-400 hover:bg-sky-500 text-white py-3 rounded-xl font-semibold transition"
+								>
+									ПОЛУЧИТЬ КОД
+								</button>
+							) : (
+								<div className="space-y-4 text-center">
+									{timer > 0 ? (
+										<p className="text-gray-500 text-sm">
+											Отправить повторно через{" "}
+											<span className="font-semibold">{timer}</span>{" "}
+											сек
+										</p>
+									) : (
+										<button
+											onClick={handleSendSMS}
+											className="text-sky-500 text-sm underline hover:text-sky-600"
+										>
+											Отправить код повторно
+										</button>
+									)}
+
+									<button
+										onClick={sendAppointment}
+										className="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-xl font-semibold transition"
+									>
+										ЗАПИСАТЬСЯ
+									</button>
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 			</div>
 
@@ -133,26 +378,7 @@ export default function Psixolog() {
 						ОБО МНЕ
 					</h3>
 					<div className="p-4 bg-[#FCF9FF] text-xl  max-sm:text-base rounded-4xl rounded-tl-md text-[#001E24]">
-						<p className="text-gray-700 mb-4">
-							Сертифицированный специалист факультета психологии МГУ им
-							Ломоносова с опытом работы более 15 лет, с детьми,
-							взрослыми и семьями.
-						</p>
-						<p className="text-gray-700 !my-4">
-							Действительный член{" "}
-							<a
-								href="https://psy-org.ru/"
-								target="_blank"
-								className="text-primary-dark underline hover:text-primary"
-							>
-								Национальной саморегулируемой организации «Союз
-								психотерапевтов и психологов»
-							</a>
-						</p>
-						<p className="!mt-2">
-							Психолог-эксперт, участница теле- и радиэфиров, автор более
-							150 научных и научно-популярных статей о психологии.
-						</p>
+						<p>{specialist?.long_description}</p>
 					</div>
 					{/* YouTube Video */}
 					<div className="mt-6">
