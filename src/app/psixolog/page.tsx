@@ -7,7 +7,7 @@ import { Clock } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { IMaskInput } from "react-imask";
 import ButtonModal from "../../../components/ButtonModal";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 interface Specialist {
 	specialist_id: number;
 	name: string;
@@ -21,7 +21,6 @@ interface Specialist {
 }
 
 export default function Psixolog() {
-	const router = useRouter();
 	const searchParams = useSearchParams();
 	const id = searchParams.get("id");
 
