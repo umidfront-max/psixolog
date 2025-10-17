@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import BaseHeader from "../../components/BaseHeader";
@@ -18,6 +17,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
 	title: "Онлайн консультация с психологом | Психолог Онлайн",
+	icons: {
+		icon: "/logo.ico",
+	},
 	description:
 		"Запишитесь на онлайн-консультацию с профессиональным психологом. Поддержка, понимание и помощь в преодолении тревоги и стресса.",
 	openGraph: {
