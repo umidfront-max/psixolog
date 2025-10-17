@@ -95,7 +95,7 @@ export default function Psychologists() {
                   </div>
 
                   <button
-                    onClick={() => router.push("/calendar")}
+                    onClick={() => router.push("/calendar?id="+p.specialist_id)}
                     className="w-full mt-3 bg-primary hover:bg-primary-dark hover:text-white font-medium py-2 px-6 max-sm:py-4 max-sm:!mt-6 rounded-full transition"
                   >
                     ЗАПИСАТЬСЯ

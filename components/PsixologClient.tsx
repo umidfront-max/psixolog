@@ -380,16 +380,18 @@ export default function Psixolog() {
 						<p>{specialist?.long_description}</p>
 					</div>
 					{/* YouTube Video */}
-					<div className="mt-6">
-						<iframe
-							src="https://www.youtube.com/embed/_1r2FihbgPA?list=PLeRD4s8cOayJA5P-ng5GjpWiWC36fse-g"
-							title="YouTube video"
-							frameBorder="0"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-							allowFullScreen
-							className="rounded-xl w-full h-95"
-						/>
-					</div>
+					{specialist?.video && (
+						<div className="mt-6">
+							<iframe
+								src={specialist.video}
+								title="YouTube video"
+								frameBorder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+								className="rounded-xl w-full h-95"
+							/>
+						</div>
+					)}
 					{/* Ta'lim */}
 					<section className="mt-6">
 						<h3 className="text-2xl  max-sm:text-base font-medium mb-4">
