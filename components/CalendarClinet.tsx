@@ -139,7 +139,6 @@ export default function CalendarPage() {
 			code_validation: smsCode,
 			name,
 		};
-
 		try {
 			const res = await fetch(
 				"https://xn--80agomhibes5b3a.xn--p1ai/appointment/",
@@ -155,8 +154,6 @@ export default function CalendarPage() {
 			toast.error("Ошибка при создании записи!");
 		}
 	};
-
-	// 🔹 Sana ostida nuqta
 	const tileContent = ({ date, view }: { date: Date; view: string }) => {
 		if (view === "month") {
 			const formatted = formatDate1(date);
