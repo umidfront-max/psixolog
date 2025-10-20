@@ -67,11 +67,14 @@ export default function Psychologists() {
 							>
 								<div className="w-full h-90 mb-4 overflow-hidden rounded-xl">
 									<Image
+										onClick={() =>
+											router.push(`/psixolog?id=${p.specialist_id}`)
+										}
 										src={imgUrl}
 										alt={p.name}
 										width={360}
 										height={360}
-										className="object-cover w-full h-full rounded-xl"
+										className="object-cover cursor-pointer w-full h-full rounded-xl"
 									/>
 								</div>
 
