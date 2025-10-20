@@ -235,7 +235,7 @@ export default function Psixolog() {
 							{specialist?.name}
 						</h2>
 						<p className="text-gray-600">
-							{specialist?.short_description}
+							{specialist?.long_description}
 						</p>
 					</div>
 				</div>
@@ -378,7 +378,7 @@ export default function Psixolog() {
 						ОБО МНЕ
 					</h3>
 					<div className="p-4 bg-[#FCF9FF] text-xl  max-sm:text-base rounded-4xl rounded-tl-md text-[#001E24]">
-						<p>{specialist?.long_description}</p>
+						<p>{specialist?.short_description}</p>
 					</div>
 					{/* YouTube Video */}
 					{specialist?.video && (

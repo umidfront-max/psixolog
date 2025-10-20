@@ -9,6 +9,7 @@ interface Specialist {
 	photo: string;
 	base_price: number;
 	short_description: string;
+	long_description: string;
 }
 
 export default function PsychologistCard() {
@@ -74,7 +75,7 @@ export default function PsychologistCard() {
 							</button>
 
 							<p className="text-gray-700 text-xl max-sm:text-base !mb-4">
-								{p.short_description || "Психолог"}
+								{p.long_description || "Психолог"}
 							</p>
 							<p className="text-gray-500 border-t border-gray-300 !pt-4 max-md:w-full">
 								Ближайшее время:{" "}
