@@ -134,7 +134,8 @@ export default function CalendarPage() {
 		const cleanPhone = phone.replace(/[^\d+]/g, "");
 		const payload = {
 			phone: cleanPhone,
-			timeslot_id: time?.id,
+         timeslot_id: time?.id,
+         description: "empty",
 			code_validation: smsCode,
 			name,
 		};

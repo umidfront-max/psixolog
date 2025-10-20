@@ -2,11 +2,11 @@
   "name": "prixolog",
   "version": "0.1.0",
   "private": true,
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start"
-},
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start"
+  },
   "dependencies": {
     "framer-motion": "^12.23.22",
     "leaflet": "^1.9.4",
