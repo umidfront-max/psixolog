@@ -56,7 +56,8 @@ export default function PsychologistCard() {
 						{/* Chap qism */}
 						<div className="flex flex-col items-start">
 							<div className="w-full rounded-xl mb-4">
-								<Image
+                        <Image
+                           onClick={() => router.push(`/psixolog?id=${p.specialist_id}`)}
 									src={imgUrl}
 									alt={p.name}
 									width={160}

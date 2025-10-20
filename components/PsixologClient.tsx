@@ -294,7 +294,7 @@ export default function Psixolog() {
 										}`}
 									>
 										<Clock size={16} />
-										<span className="text-sm">{t?.time}</span>
+										<span className="text-sm">{t?.time?.substring(0,5)}</span>
 									</button>
 								))
 						) : (

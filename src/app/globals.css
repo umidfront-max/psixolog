@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 @font-face {
 	font-family: "Gilroy";
@@ -54,6 +55,9 @@
 }
 .react-calendar__tile {
 	border-radius: 10px !important;
+}
+.leaflet-control-attribution {
+  display: none !important;
 }
 .react-calendar__tile--active {
 	background: #1dcbee !important; /* Masalan, Tailwinddagi blue-600 */
