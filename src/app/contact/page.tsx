@@ -1,9 +1,15 @@
-import React from 'react'
+"use client";
 
-function User() {
-  return (
-    <div>User</div>
-  )
+import dynamic from "next/dynamic";
+
+const ContactMap = dynamic(() => import("../../../components/ContactMap"), {
+	ssr: false, // faqat clientda render bo‘ladi
+});
+
+export default function ContactPage() {
+	return (
+		<div>
+			<ContactMap />
+		</div>
+	);
 }
-
-export default User

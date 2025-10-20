@@ -1,5 +1,5 @@
 "use client";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState } from "react";
@@ -39,13 +39,11 @@ const ContactMap = () => {
 				scrollWheelZoom={false}
 				className="w-full h-full z-0"
 			>
-				<TileLayer
-					attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-				/>
-
 				{/* Custom marker */}
-				<Marker position={[latitude, longitude]} icon={createCustomMarker()} />
+				<Marker
+					position={[latitude, longitude]}
+					icon={createCustomMarker()}
+				/>
 			</MapContainer>
 
 			{/* Kontakt ma’lumotlari */}
@@ -65,7 +63,9 @@ const ContactMap = () => {
 							<MapPin className="w-6 h-6 text-primary" />
 							<div>
 								<p className="text-sm text-gray-500">Наш адрес:</p>
-								<p>г. Москва, ул. Орджоникидзе, д.11, стр.11, офис 108</p>
+								<p>
+									г. Москва, ул. Орджоникидзе, д.11, стр.11, офис 108
+								</p>
 							</div>
 						</div>
 
