@@ -4,10 +4,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Clock } from "lucide-react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { IMaskInput } from "react-imask";
 import ButtonModal from "../components/ButtonModal";
 import { useSearchParams } from "next/navigation";
+
 interface Specialist {
 	specialist_id: number;
 	name: string;
@@ -55,6 +56,8 @@ export default function Psixolog() {
 		specialist_id: id,
 		online: false,
 	});
+
+	// SMS kod uchun taymer
 	useEffect(() => {
 		if (timer > 0) {
 			const interval = setInterval(() => setTimer((t) => t - 1), 1000);
@@ -62,19 +65,16 @@ export default function Psixolog() {
 		}
 	}, [timer]);
 
+	// 🔹 SMS yuborish
 	const handleSendSMS = async () => {
-		console.log(phone);
-		if (!name.trim()) {
-			toast.error("Введите имя");
-			return;
-		}
-		if (!phone) {
+		if (!name.trim() || !phone) {
 			toast.error("Введите имя и номер телефона!");
 			return;
 		}
+
 		const cleanPhone = phone.replace(/[^\d+]/g, "");
+
 		try {
-			// SMS yuborish API (misol uchun)
 			const res = await fetch(
 				"https://xn--80agomhibes5b3a.xn--p1ai/validation_phone_number/",
 				{
@@ -86,52 +86,68 @@ export default function Psixolog() {
 
 			if (!res.ok) throw new Error("Ошибка отправки СМС");
 			setIsCodeSent(true);
-			setTimer(60); // 1 daqiqa
+			setTimer(60);
 			toast.success("Код отправлен на ваш номер!");
 		} catch (err) {
 			console.error(err);
 			toast.error("Ошибка при отправке SMS");
 		}
 	};
-	// 🔹 API dan sanalarni olish
-	const fetchCalendar = useCallback(async () => {
-		try {
+
+	// 🔹 Ma'lumotlarni yuklash (mutaxassis + kalendar)
+	useEffect(() => {
+		if (!id) return; // id mavjud bo‘lmasa, hech narsa qilmaymiz
+
+		let ignore = false;
+
+		const loadData = async () => {
 			setLoading(true);
-			const res = await fetch(
-				"https://xn--80agomhibes5b3a.xn--p1ai/get_freedate_list/",
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify(formData),
+			try {
+				const [specRes, calRes] = await Promise.all([
+					fetch(`https://xn--80agomhibes5b3a.xn--p1ai/specialist/${id}`),
+					fetch(
+						`https://xn--80agomhibes5b3a.xn--p1ai/get_freedate_list/`,
+						{
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({
+								begin: formatDate1(today),
+								end: formatDate1(threeMonthsLater),
+								specialist_id: id,
+								online: formData.online,
+							}),
+						}
+					),
+				]);
+
+				if (!specRes.ok || !calRes.ok) throw new Error("API error");
+
+				const [specData, calData] = await Promise.all([
+					specRes.json(),
+					calRes.json(),
+				]);
+
+				if (!ignore) {
+					setSpecialist(specData);
+					setCalendar(calData);
 				}
-			);
+			} catch (err) {
+				console.error("Yuklashda xato:", err);
+			} finally {
+				setLoading(false);
+			}
+		};
 
-			if (!res.ok) throw new Error("API xatosi");
-			const data = await res.json();
-			setCalendar(data);
-		} catch (err) {
-			console.error("Xato:", err);
-		} finally {
-			setLoading(false);
-		}
-	}, [formData]);
+		loadData();
+		return () => {
+			ignore = true;
+		};
+	}, [id, formData.online]);
 
-	// 🔹 Mutaxassisni olish
-	const fetchSpecialists = useCallback(async () => {
-		try {
-			const res = await fetch(
-				"https://xn--80agomhibes5b3a.xn--p1ai/specialist/" + id
-			);
-			if (!res.ok) throw new Error("API xatosi");
-			const data = await res.json();
-			setSpecialist(data);
-		} catch (err) {
-			console.error("Xato:", err);
-		}
-	}, [id]);
-
+	// 🔹 Vaqt slotlarini olish
 	const fetchTimeSlots = useCallback(
 		async (selectedDate: Date) => {
+			if (!id) return;
 			try {
 				const res = await fetch(
 					"https://xn--80agomhibes5b3a.xn--p1ai/get_time_slot/",
@@ -148,24 +164,15 @@ export default function Psixolog() {
 
 				if (!res.ok) throw new Error("API xatosi");
 				const data = await res.json();
-				setTimeSlots(data); // bu massiv bo‘lishi kerak (masalan ["09:00","10:00",...])
+				setTimeSlots(data);
 			} catch (err) {
 				console.error("Vaqtni olishda xato:", err);
 			}
 		},
 		[formData.online, id]
 	);
-	// 🔹 Dastlabki yuklanish
-	useEffect(() => {
-		fetchCalendar();
-		fetchSpecialists();
-	}, [fetchCalendar, fetchSpecialists]);
 
-	// 🔹 Online yoki kabinet o‘zgarsa — qayta so‘rov
-	useEffect(() => {
-		fetchCalendar();
-	}, [formData.online, fetchCalendar]);
-
+	// 🔹 Mijozni yozish
 	const sendAppointment = async () => {
 		if (!smsCode) {
 			toast.error("Введите код из SMS!");
@@ -175,8 +182,8 @@ export default function Psixolog() {
 		const cleanPhone = phone.replace(/[^\d+]/g, "");
 		const payload = {
 			phone: cleanPhone,
-         timeslot_id: time?.id,
-         description: "empty",
+			timeslot_id: time?.id,
+			description: "empty",
 			code_validation: smsCode,
 			name,
 		};
@@ -198,7 +205,7 @@ export default function Psixolog() {
 		}
 	};
 
-	// 🔹 Sana belgisi (API dan kelgan sanalarda nuqta)
+	// 🔹 Kalendar belgilari
 	const tileContent = ({ date, view }: { date: Date; view: string }) => {
 		if (view === "month") {
 			const formatted = formatDate1(date);
@@ -295,7 +302,9 @@ export default function Psixolog() {
 										}`}
 									>
 										<Clock size={16} />
-										<span className="text-sm">{t?.time?.substring(0,5)}</span>
+										<span className="text-sm">
+											{t?.time?.substring(0, 5)}
+										</span>
 									</button>
 								))
 						) : (
