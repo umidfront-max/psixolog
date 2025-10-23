@@ -228,7 +228,12 @@ export default function Psixolog() {
 		  )}`;
 	return (
 		<div className="container !py-10 max-md:!py-6 grid md:grid-cols-3 max-xl:gap-10 gap-20">
-			<ButtonModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+			<ButtonModal
+				specialistId={specialist?.specialist_id || 2}
+				isOpen={isOpen}
+				onClose={() => setIsOpen(false)}
+				specialist1={{...specialist, imgUrl}}
+			/>
 			{/* Chap qism */}
 			<div className="flex flex-col items-center space-y-6 max-lg:hidden">
 				<div className="w-full border rounded-4xl border-gray-300">

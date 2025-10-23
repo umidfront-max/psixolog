@@ -51,7 +51,7 @@ const ContactMap = () => {
 
 			{/* Kontakt ma’lumotlari */}
 			{isOpen && (
-				<div className="absolute top-24 left-24 w-[480px] max-md:w-4/5 max-sm:w-[90%] bg-white/95 backdrop-blur-sm p-8 max-md:p-4 rounded-2xl shadow-lg z-[1000]">
+				<div className="absolute top-24 left-24  max-sm:!left-4 max-sm:right-4 w-[480px] max-md:w-4/5 max-sm:!w-auto bg-white/95 backdrop-blur-sm p-8 max-md:p-4 rounded-2xl shadow-lg z-[1000]">
 					<div className="flex justify-between items-center mb-4">
 						<p className="text-primary-dark font-medium">
 							Подробнее как добраться...

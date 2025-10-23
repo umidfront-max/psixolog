@@ -69,7 +69,7 @@ export default function PsychologistCard() {
 				return (
 					<div
 						key={p.specialist_id}
-						className="bg-[#F4F4F440] rounded-3xl p-10 grid grid-cols-4 gap-20 max-xl:grid-cols-3 max-lg:gap-10 max-md:grid-cols-1"
+						className="bg-[#F4F4F440] rounded-3xl p-10 grid grid-cols-4 gap-20 max-md:gap-x-0 max-sm:px-0 max-xl:grid-cols-3 max-lg:gap-10 max-md:grid-cols-1"
 					>
 						{/* Chap qism */}
 						<div className="flex flex-col items-start">
