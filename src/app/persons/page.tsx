@@ -69,7 +69,7 @@ export default function PsychologistCard() {
 				return (
 					<div
 						key={p.specialist_id}
-						className="bg-[#F4F4F440] rounded-3xl p-10 grid grid-cols-4 gap-20 max-md:gap-x-0 max-sm:px-0 max-xl:grid-cols-3 max-lg:gap-10 max-md:grid-cols-1"
+						className="bg-[#F4F4F440] rounded-3xl p-10 grid grid-cols-4 gap-10 max-md:gap-x-0 max-sm:px-0 max-xl:grid-cols-3 max-lg:gap-10 max-md:grid-cols-1"
 					>
 						{/* Chap qism */}
 						<div className="flex flex-col items-start">
@@ -80,7 +80,7 @@ export default function PsychologistCard() {
 									alt={p.name}
 									width={160}
 									height={160}
-									className="object-cover rounded-3xl h-60 max-md:h-96 w-full cursor-pointer"
+									className="object-cover rounded-3xl h-64 max-md:h-96 w-full cursor-pointer"
 								/>
 							</div>
 
@@ -102,7 +102,7 @@ export default function PsychologistCard() {
 						</div>
 
 						{/* O‘ng qism */}
-						<div className="col-span-3 max-xl:col-span-2 flex flex-col justify-between">
+						<div className="col-span-3 max-xl:col-span-2 flex flex-col justify-between pl-8 max-md:p-0">
 							<div>
 								<h2 className="text-2xl font-semibold text-gray-800 mb-2">
 									{p.name}
